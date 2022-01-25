@@ -1,0 +1,19 @@
+.album_item {
+    border: 1px solid rgb(112, 96, 96);
+    width: 200px;
+    border-radius: 5px;
+}
+
+.album_item + .album_item {
+    margin-left: 10px;
+}
+
+.album_thumbnail > img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.album_title {
+    color: red;
+}

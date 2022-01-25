@@ -1,0 +1,14 @@
+.todo {
+    cursor: pointer;
+    & > li {
+        padding: 10px;
+    }
+}
+.todo--new {
+    color: blue;
+}
+.todo--old {
+    color: red;
+    font-weight: lighter;
+    text-decoration: line-through;
+}
