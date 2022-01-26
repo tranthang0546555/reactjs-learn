@@ -8,6 +8,7 @@ function App() {
     <>
       {/* <TodoFeature /> */}
       <Album />
+
       <br />
       {/* <ColorBox /> */}
     </>
