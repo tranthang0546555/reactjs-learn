@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useState } from 'react/cjs/react.development';
 
@@ -19,18 +19,27 @@ function Pagination({ pagination, onChangePage }) {
         onChangePage(newPage)
     }
     const lastPage = Math.ceil(pagination._totalRows / pagination._limit)
+
+
+    useEffect(() => {
+        setPage(pagination._page)
+    }, [pagination])
+
+    console.log(page);
     return (
         <div>
+            {console.log('Load pagination')}
             <button
+                disabled={page === 1}
                 onClick={() => (handleChangePage(page - 1))}
-                disabled={page <= 1}
+
             >
                 Previous
             </button>
             <i>__{pagination._page}__</i>
             <button
                 onClick={() => (handleChangePage(page + 1))}
-                disabled={page >= lastPage}
+                disabled={page === lastPage}
             >
                 Next
             </button>
