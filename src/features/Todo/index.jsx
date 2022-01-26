@@ -1,45 +1,82 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Pagination from './components/Pagination';
 import TodoList from './components/TodoList';
 
 function TodoFeature() {
 
-    const initTodos = [
-        {
-            id: 1,
-            title: "Todo1",
-            status: 'new'
-        },
-        {
-            id: 2,
-            title: "Todo2",
-            status: 'old'
-        },
-        {
-            id: 3,
-            title: "Todo3",
-            status: 'old'
-        }
-    ]
+    const [pagination, setPagination] =
+        useState({
+            "_page": 1,
+            "_limit": 10,
+            "_totalRows": 50
+        })
 
-    const [status, setStatus] = useState(initTodos)
+    const [status, setStatus] = useState([])
 
-    const handleStatusClick = (index) => {
-        setStatus(pre => {
-            const newStatus = [...pre]
-            newStatus[index] = {
-                ...pre[index],
-                status: (pre[index].status === 'new') ? 'old' : 'new'
+    const [show, setShow] = useState('all')
+
+    useEffect(() => {
+        async function fetchPostList() {
+            try {
+                const url = `http://js-post-api.herokuapp.com/api/posts?_limit=${pagination._limit}&_page=${pagination._page}`
+                const response = await fetch(url)
+                const responseJson = await response.json()
+                // console.log({ responseJson });
+                const { data } = responseJson
+                const newData = data.map(value => ({ ...value, status: 'new' }))
+                setStatus(newData)
+            } catch (error) {
+                console.log(error);
             }
-            console.log(newStatus)
+        }
+        fetchPostList()
+    }, [pagination]);
+
+
+    const handleStatusClick = (id) => {
+        setStatus(pre => {
+            const newStatus = []
+            pre.map(value => (
+                newStatus.push({
+                    ...value,
+                    status: (value.id === id) ? ((value.status === 'new') ? 'old' : 'new') : value.status
+                })
+            ))
+            // console.log(newStatus)
             return newStatus
         })
     }
 
-    console.log('load_Todo---');
+
+    const handleShowAll = () => {
+        setShow('all')
+    }
+
+    const handleShowNew = () => {
+        setShow('new')
+    }
+
+    const handleShowOld = () => {
+        setShow('old')
+    }
+
+    const filterListTodo = status.filter(value => (show === 'all') ? true : (value.status === show))
+
+
+
+    const handleChangePage = (numPage) => {
+        const newPagination = { ...pagination, _page: numPage }
+        setPagination(newPagination)
+    }
 
     return (
         <>
-            <TodoList todoList={status} onClickHandleStatus={handleStatusClick} />
+
+            <button onClick={handleShowAll}>Show all</button>
+            <button onClick={handleShowNew}>Show new</button>
+            <button onClick={handleShowOld}>Show old</button>
+            <TodoList todoList={filterListTodo} onClickHandleStatus={handleStatusClick} />
+            <Pagination pagination={pagination} onChangePage={handleChangePage} />
         </>
     );
 }

@@ -4,14 +4,14 @@ import './index.scss'
 
 function TodoList({ todoList, onClickHandleStatus }) {
     console.log('load_TodoList');
-    const handleStatus = (index) => {
+    const handleStatus = (id) => {
         if (!onClickHandleStatus) return;
-        else onClickHandleStatus(index)
+        else onClickHandleStatus(id)
     }
     return (
         <ul className='todo'>
             {todoList.map((value, index) => (
-                <li key={index} className={`todo--${value.status}`} onClick={() => handleStatus(index)}>{value.title}</li>
+                <li key={index} className={`todo--${value.status}`} onClick={() => handleStatus(value.id)}>{value.title}</li>
             ))}
         </ul>
     );
@@ -21,7 +21,7 @@ export default TodoList;
 
 
 TodoList.propTypes = {
-    todoList: PropTypes.array.isRequired,
+    todoList: PropTypes.array,
     onClickHandleStatus: PropTypes.func
 }
 
