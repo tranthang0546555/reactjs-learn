@@ -1,0 +1,18 @@
+.clock {
+    font-size: 30px;
+    color: white;
+    background-color: blue;
+    animation: L2R 2s ease;
+    position: relative;
+}
+
+@keyframes L2R {
+    from {
+        color: black;
+        left: 100px;
+    }
+    to {
+        color: pink;
+        left: 0px;
+    }
+}

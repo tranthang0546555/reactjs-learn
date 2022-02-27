@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './index.scss'
 
 function getRandomColor() {
@@ -11,6 +11,19 @@ function ColorBox(props) {
     const [color, setColor] = useState(() => (
         localStorage.getItem('colorBox') || 'blue'
     ));
+    const loop = useRef()
+
+    useEffect(() => {
+
+        loop.current = setInterval(() => {
+            setColor(getRandomColor())
+        }, 1000)
+
+
+        return () => {
+            clearInterval(loop.current)
+        };
+    }, []);
 
     const handleChangeColor = () => {
         const newColor = getRandomColor()

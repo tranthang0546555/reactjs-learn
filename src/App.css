@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  width: 80%;
+  height: auto;
+  margin: 0 auto;
+  background-color: rgb(212, 212, 212);
+}
